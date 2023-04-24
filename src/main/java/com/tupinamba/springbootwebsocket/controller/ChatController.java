@@ -22,4 +22,11 @@ public class ChatController {
     public ChatMessage sendMessage(@Payload ChatMessage chatMessage) {
         return chatMessage;
     }
+
+    @MessageMapping("/chat.leave")
+    @SendTo("/topic/public")
+    public ChatMessage leaveGP(@Payload ChatMessage chatMessage, SimpMessageHeaderAccessor headerAccessor) {
+        headerAccessor.getSessionAttributes().remove("username", chatMessage.getSender());
+        return chatMessage;
+    }
 }

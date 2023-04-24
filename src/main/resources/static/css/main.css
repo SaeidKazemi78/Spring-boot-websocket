@@ -104,7 +104,10 @@ button.primary {
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.12);
     color: #fff;
 }
-
+.leave {
+    background-color:  red;
+    color: #fff;
+}
 button.accent {
     background-color: #1778dd;
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.12);
@@ -232,7 +235,7 @@ button.accent {
 
 #messageForm .input-group button {
     float: left;
-    width: 80px;
+    /*width: 80px;*/
     height: 38px;
     margin-left: 5px;
 }

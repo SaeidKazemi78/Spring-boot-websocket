@@ -1,12 +1,12 @@
 'use strict';
 
-var usernamePage = document.querySelector('#username-page');
-var chatPage = document.querySelector('#chat-page');
-var usernameForm = document.querySelector('#usernameForm');
-var messageForm = document.querySelector('#messageForm');
-var messageInput = document.querySelector('#message');
-var messageArea = document.querySelector('#messageArea');
-var connectingElement = document.querySelector('.connecting');
+let usernamePage = document.querySelector('#username-page');
+let chatPage = document.querySelector('#chat-page');
+let usernameForm = document.querySelector('#usernameForm');
+let messageForm = document.querySelector('#messageForm');
+let messageInput = document.querySelector('#message');
+let messageArea = document.querySelector('#messageArea');
+let connectingElement = document.querySelector('.connecting');
 
 var stompClient = null;
 var username = null;
@@ -26,13 +26,26 @@ function connect(event) {
         var socket = new SockJS('/websocket');
         stompClient = Stomp.over(socket);
 
-        stompClient.connect({}, onConnected, onError);
+        stompClient.connect({name:'saeid'}, onConnected, onError);
     }
     event.preventDefault();
 }
 
 
+function leave(){
+    // Subscribe to the Public Topic
+
+    // Tell your username to the server
+    stompClient.send("/app/chat.leave",
+        {},
+        JSON.stringify({sender: username, type: 'LEAVE'})
+    )
+    chatPage.classList.add('hidden');
+    window.close();
+}
+
 function onConnected() {
+    alert("Connected to the GP")
     // Subscribe to the Public Topic
     stompClient.subscribe('/topic/public', onMessageReceived);
 
@@ -47,7 +60,7 @@ function onConnected() {
 
 
 function onError(error) {
-    connectingElement.textContent = 'Não foi possível se conectar ao WebSocket! Atualize a página e tente novamente ou entre em contato com o administrador.';
+    connectingElement.textContent = 'Error Occurred';
     connectingElement.style.color = 'red';
 }
 
